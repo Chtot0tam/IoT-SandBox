@@ -1,0 +1,540 @@
+{
+  "info": {
+    "_postman_id": "59ce03c7-b981-45a0-ac1f-902049257b2d",
+    "name": "IoT SandBox",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45726444",
+    "_collection_link": "https://go.postman.co/collection/45726444-59ce03c7-b981-45a0-ac1f-902049257b2d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "devices tests",
+      "item": [
+        {
+          "name": "Get devices",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const json = pm.response.json();\r",
+                  "pm.test(\"Response contains meta object\", function () {\r",
+                  "    pm.expect(json.meta.status).to.eql(\"success\")\r",
+                  "})\r",
+                  "pm.test(\"devices exist and is array\", function(){\r",
+                  "    pm.expect(json.devices).to.be.an('array')\r",
+                  "    pm.expect(json.devices).to.not.be.null\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Devices contain",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"devices have id, type, room, online\", function(){\r",
+                  "    json.devices.forEach(function(device){ \r",
+                  "        pm.expect(device).to.have.property('id');\r",
+                  "        pm.expect(device).to.have.property('type');\r",
+                  "        pm.expect(device).to.have.property('room');\r",
+                  "        pm.expect(device).to.have.property('online');\r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "num of devices",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"8 devices\", function(){\r",
+                  "    pm.expect(json.devices.length).to.eql(8);\r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "num of types",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "const Sockets = json.devices.filter(s => s.type === 'Socket');\r",
+                  "const WaterLeakSensors = json.devices.filter(s => s.type === 'WaterLeakSensor');\r",
+                  "const TemperatureSensors = json.devices.filter(s => s.type === 'TemperatureSensor');\r",
+                  "const Lights = json.devices.filter(s => s.type === 'Light');\r",
+                  "\r",
+                  "pm.test(\"4 sockets, 2 water, 1 temp, 1 light\", function(){\r",
+                  "    pm.expect(Sockets.length).to.eql(4);\r",
+                  "    pm.expect(WaterLeakSensors.length).to.eql(2);\r",
+                  "    pm.expect(TemperatureSensors.length).to.eql(1);\r",
+                  "    pm.expect(Lights.length).to.eql(1);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Offline device check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "const socket3 = json.devices.find(s => s.id === 'socket-03');\r",
+                  "pm.test('Socket 3 is offline',function () {\r",
+                  "    pm.expect(socket3.online).to.eql(false)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "device id tests",
+      "item": [
+        {
+          "name": "socket = type  socket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"socket-01 and type is socket\", function () {\r",
+                  "    pm.expect(json.id).to.eql(\"socket-01\");\r",
+                  "    pm.expect(json.type).to.eql(\"Socket\");\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices/socket-01",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices",
+                "socket-01"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Endpoint check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"has endpoins and 1 OnOff\", function () {\r",
+                  "    pm.expect(json.endpoints).to.exist\r",
+                  "})\r",
+                  "\r",
+                  "const OnOff = json.endpoints.find(endpoint => endpoint.cluster === \"OnOff\")\r",
+                  "pm.test(\"has OnOff\", function () {\r",
+                  "pm.expect(OnOff).to.eql(true)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices/socket-01",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices",
+                "socket-01"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Powermeter check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "const PowerMeter = json.endpoints.find(pm => pm.cluster === \"PowerMeter\");\r",
+                  "\r",
+                  "pm.test(\"currentpower > 0 and voltage - 230\",function(){\r",
+                  "    pm.expect(PowerMeter.attributes.currentPowerW).to.be.above(0);\r",
+                  "    pm.expect(PowerMeter.attributes.voltage).to.equal(230);\r",
+                  "}) "
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices/socket-01",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices",
+                "socket-01"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "sensor water tests",
+      "item": [
+        {
+          "name": "sensors num check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"2 sensors\", function(){\r",
+                  "    pm.expect(json.sensors.length).to.eql(2);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/sensors/water",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "sensors",
+                "water"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "battery < 20 then warning",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "pm.test(\"if <2-0\")"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/sensors/water",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "sensors",
+                "water"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "if leak then warning check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"if leak then warning\", function () {\r",
+                  "    json.sensors.forEach(function(sensor){\r",
+                  "\r",
+                  "        if (sensor.leak === true){\r",
+                  "            pm.expect(sensor.warnings).to.include(\"WATER_LEAK_DETECTED\");\r",
+                  "        }\r",
+                  "\r",
+                  "    });\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/sensors/water",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "sensors",
+                "water"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "leak false then no warning",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "sensor temp tests",
+      "item": [
+        {
+          "name": "temp is between -40 and 100",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "humidity is between 0 and 100",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "has id, room, temp,humid",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "light tests",
+      "item": [
+        {
+          "name": "is on, is 0-100, if off then brightness 0",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "gateway tests",
+      "item": [
+        {
+          "name": "ip, firmware exist and status is online",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "connected devices",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "Base_URL",
+      "value": ""
+    }
+  ]
+}
