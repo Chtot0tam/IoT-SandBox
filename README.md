@@ -106,31 +106,10 @@ Total test cases: **22**
 
 ---
 
-## 📊 Example Test Script (Postman)
+## 📸 ScreenShots
+<img width="199" height="254" alt="image" src="https://github.com/user-attachments/assets/f4f8d898-61f5-4bea-9439-dc3dd893fef8" />
 
-```javascript
-const json = pm.response.json();
 
-pm.test("Status code is 200", function () {
-    pm.response.to.have.status(200);
-});
 
-pm.test("Devices array exists", function () {
-    pm.expect(json.devices).to.be.an("array");
-});
 
-pm.test("Check socket devices", function () {
-    const sockets = json.devices.filter(d => d.type === "Socket");
-
-});
-
-pm.test("Leak detection logic", function () {
-    const sensors = json.devices.filter(d => d.type === "WaterLeakSensor");
-
-    sensors.forEach(sensor => {
-        if (sensor.leak === true) {
-            pm.expect(sensor.warnings).to.include("WATER_LEAK_DETECTED");
-        }
-    });
-});
 
