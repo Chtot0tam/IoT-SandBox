@@ -368,7 +368,13 @@
               "script": {
                 "exec": [
                   "const json = pm.response.json();\r",
-                  "pm.test(\"if <2-0\")"
+                  "pm.test(\"if battery < 20 then warning\", function(){\r",
+                  "    json.sensors.forEach(function(sensor){\r",
+                  "        if (sensor.battery < 20){\r",
+                  "            pm.expect(sensor.warnings).to.include(\"LOW_BATTERY\");\r",
+                  "        }\r",
+                  "    })\r",
+                  "})"
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -435,9 +441,40 @@
         },
         {
           "name": "leak false then no warning",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"if no leak then no warning\", function(){\r",
+                  "    json.sensors.forEach(function(sensor){\r",
+                  "        if (sensor.leak === false){\r",
+                  "            pm.expect(sensor.warnings).to.not.exist\r",
+                  "        }\r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/sensors/water",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "sensors",
+                "water"
+              ]
+            }
           },
           "response": []
         }
@@ -448,25 +485,113 @@
       "item": [
         {
           "name": "temp is between -40 and 100",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "pm.test(\"temp is between -40 and 100\", function(){\r",
+                  "    json.sensors.forEach(function(sensor){\r",
+                  "        pm.expect(sensor.temperatureC).to.be.within(-40, 100)\r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/sensors/temperature",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "sensors",
+                "temperature"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "humidity is between 0 and 100",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "pm.test(\"temp is between -40 and 100\", function(){\r",
+                  "    json.sensors.forEach(function(sensor){\r",
+                  "        pm.expect(sensor.humidity).to.be.within(0, 100)\r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/sensors/temperature",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "sensors",
+                "temperature"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "has id, room, temp,humid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"has id, room, temperatureC, humidity\", function () {\r",
+                  "    json.sensors.forEach(function(sensor){\r",
+                  "        pm.expect(sensor).to.have.property(\"id\");\r",
+                  "        pm.expect(sensor).to.have.property(\"room\");\r",
+                  "        pm.expect(sensor).to.have.property(\"temperatureC\");\r",
+                  "        pm.expect(sensor).to.have.property(\"humidity\");\r",
+                  "    })\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/sensors/temperature",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "sensors",
+                "temperature"
+              ]
+            }
           },
           "response": []
         }
@@ -477,9 +602,42 @@
       "item": [
         {
           "name": "is on, is 0-100, if off then brightness 0",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "pm.test(\"is on and brightness in 0-100\", function(){\r",
+                  "    pm.expect(json.status).to.eql(\"On\")\r",
+                  "    pm.expect(json.brightness).to.be.within(0, 100)\r",
+                  "})\r",
+                  "pm.test(\"if off brightness is 0\", function(){\r",
+                  "    if (json.status === \"Off\"){\r",
+                  "        pm.expect(json.brightness).to.eql(0)\r",
+                  "    }\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/devices/light-01/state",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "devices",
+                "light-01",
+                "state"
+              ]
+            }
           },
           "response": []
         }
@@ -490,17 +648,71 @@
       "item": [
         {
           "name": "ip, firmware exist and status is online",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"ip, firmware exist and status is online\", function(){\r",
+                  "    pm.expect(json.ip).to.not.be.undefined;\r",
+                  "    pm.expect(json.firmware).to.not.be.undefined;\r",
+                  "    pm.expect(json.status).to.eql(\"online\");\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/gateway",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "gateway"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "connected devices",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"devices exist and connected, and eql or greater than 0\", function () {\r",
+                  "pm.expect(json.connectedDevices).to.be.at.least(0)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/gateway",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "gateway"
+              ]
+            }
           },
           "response": []
         }
