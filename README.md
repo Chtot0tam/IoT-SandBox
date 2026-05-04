@@ -13,7 +13,15 @@ The project focuses on:
 - Data consistency checks
 
 ---
+## ▶️ How to Run This Project
 
+Follow these steps to run the mock API and test it locally.
+- Clone this repository
+- Install Mockoon https://mockoon.com/download/
+- Import IoT SandBox.postman_collection.json
+- Start the mock server
+- Run API tests
+---
 ## 🏠 System Description
 
 The simulated IoT system includes the following devices:
