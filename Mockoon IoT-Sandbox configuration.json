@@ -1,0 +1,274 @@
+{
+  "uuid": "c92bd533-ce0e-4376-a0c5-5f5ea2eb1859",
+  "lastMigration": 33,
+  "name": "IoT SandBox (copy)",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3002,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "7cac5965-3bb7-4314-a94b-01fb490637d4",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "devices",
+      "responses": [
+        {
+          "uuid": "1c017647-d637-4f4e-b107-4dc4362e82f5",
+          "body": "{\r\n  \"meta\": {\r\n    \"status\": \"success\",\r\n    \"timestamp\": \"2026-05-02T21:45:12Z\"\r\n  },\r\n  \"devices\": [\r\n    { \"id\": \"socket-01\", \"type\": \"Socket\", \"room\": \"Living Room\", \"online\": true },\r\n    { \"id\": \"socket-02\", \"type\": \"Socket\", \"room\": \"Bedroom\", \"online\": true },\r\n    { \"id\": \"socket-03\", \"type\": \"Socket\", \"room\": \"Kitchen\", \"online\": false },\r\n    { \"id\": \"socket-04\", \"type\": \"Socket\", \"room\": \"Office\", \"online\": true },\r\n\r\n    { \"id\": \"water-01\", \"type\": \"WaterLeakSensor\", \"room\": \"Bathroom\", \"online\": true },\r\n    { \"id\": \"water-02\", \"type\": \"WaterLeakSensor\", \"room\": \"Kitchen\", \"online\": true },\r\n\r\n    { \"id\": \"temp-01\", \"type\": \"TemperatureSensor\", \"room\": \"Living Room\", \"online\": true },\r\n    { \"id\": \"light-01\", \"type\": \"Light\", \"room\": \"Bedroom\", \"online\": true }\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "bd6fb743-5751-4bf0-a800-8bcc39386db0",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "devices/:id",
+      "responses": [
+        {
+          "uuid": "a18746fc-93d0-4529-bbb5-06ea3e1a7eee",
+          "body": "{\r\n  \"id\": \"socket-01\",\r\n  \"type\": \"Socket\",\r\n  \"room\": \"Living Room\",\r\n  \"online\": true,\r\n  \"endpoints\": [\r\n    {\r\n      \"id\": 1,\r\n      \"cluster\": \"OnOff\",\r\n      \"attributes\": {\r\n        \"status\": \"On\",\r\n        \"lastUpdated\": \"2026-05-02T20:00:00Z\"\r\n      }\r\n    },\r\n    {\r\n      \"id\": 2,\r\n      \"cluster\": \"PowerMeter\",\r\n      \"attributes\": {\r\n        \"currentPowerW\": 45.2,\r\n        \"voltage\": 230,\r\n        \"consumptionTodayKWh\": 1.4\r\n      }\r\n    }\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b00553a1-c55d-460f-b00a-b2384f5e7626",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "sensors/water",
+      "responses": [
+        {
+          "uuid": "e132a17d-bc70-469a-b9ca-6a05e137af6c",
+          "body": "{\r\n  \"sensors\": [\r\n    {\r\n      \"id\": \"water-01\",\r\n      \"room\": \"Bathroom\",\r\n      \"leak\": false,\r\n      \"battery\": 78\r\n    },\r\n    {\r\n      \"id\": \"water-02\",\r\n      \"room\": \"Kitchen\",\r\n      \"leak\": true,\r\n      \"battery\": 15,\r\n      \"warnings\": [\r\n        \"WATER_LEAK_DETECTED\",\r\n        \"LOW_BATTERY\"\r\n      ]\r\n    }\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "eec11db0-10eb-4ad9-b5f8-6193ce7bd538",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "sensors/temperature",
+      "responses": [
+        {
+          "uuid": "ce94ca79-0557-4f5e-b839-e91e0c4c1e01",
+          "body": "{\r\n  \"sensors\": [\r\n    {\r\n      \"id\": \"temp-01\",\r\n      \"room\": \"Living Room\",\r\n      \"temperatureC\": 23.5,\r\n      \"humidity\": 41\r\n    }\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "bdc17809-f20c-43d6-9056-d4d9881a24d9",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "devices/light-01/state",
+      "responses": [
+        {
+          "uuid": "fed890a2-3a3c-44f8-b654-d5a44dc73be0",
+          "body": "{\r\n  \"id\": \"light-01\",\r\n  \"status\": \"On\",\r\n  \"brightness\": 75\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f50ecd8b-7542-4f0f-bd5d-61046a927936",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "gateway",
+      "responses": [
+        {
+          "uuid": "a632074a-9d2d-4c6f-8281-0c76646ce6a8",
+          "body": "{\r\n  \"id\": \"gateway-01\",\r\n  \"ip\": \"192.168.0.1\",\r\n  \"firmware\": \"1.2.7\",\r\n  \"connectedDevices\": 8,\r\n  \"status\": \"online\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "7cac5965-3bb7-4314-a94b-01fb490637d4"
+    },
+    {
+      "type": "route",
+      "uuid": "bd6fb743-5751-4bf0-a800-8bcc39386db0"
+    },
+    {
+      "type": "route",
+      "uuid": "b00553a1-c55d-460f-b00a-b2384f5e7626"
+    },
+    {
+      "type": "route",
+      "uuid": "eec11db0-10eb-4ad9-b5f8-6193ce7bd538"
+    },
+    {
+      "type": "route",
+      "uuid": "bdc17809-f20c-43d6-9056-d4d9881a24d9"
+    },
+    {
+      "type": "route",
+      "uuid": "f50ecd8b-7542-4f0f-bd5d-61046a927936"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
