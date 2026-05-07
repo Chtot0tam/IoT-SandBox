@@ -18,8 +18,10 @@ The project focuses on:
 Follow these steps to run the mock API and test it locally.
 - Clone this repository
 - Install Mockoon https://mockoon.com/download/
-- Import IoT SandBox.postman_collection.json
-- Start the mock server
+- Install Postman https://www.postman.com/downloads/
+- Import Mockoon IoT-Sandbox configuration.json in Mockoon
+- Start the mock server (Press green button)
+- Import IoT SandBox.postman_collection.json in Postman
 - Run API tests
 ---
 ## 🏠 System Description
