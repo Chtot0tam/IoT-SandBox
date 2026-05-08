@@ -258,7 +258,7 @@
                   "\r",
                   "const OnOff = json.endpoints.find(endpoint => endpoint.cluster === \"OnOff\")\r",
                   "pm.test(\"has OnOff\", function () {\r",
-                  "pm.expect(OnOff).to.eql(true)\r",
+                  "pm.expect(OnOff).to.exist\r",
                   "})"
                 ],
                 "type": "text/javascript",
@@ -527,7 +527,7 @@
               "script": {
                 "exec": [
                   "const json = pm.response.json();\r",
-                  "pm.test(\"temp is between -40 and 100\", function(){\r",
+                  "pm.test(\"humidity is between 0 and 100\", function(){\r",
                   "    json.sensors.forEach(function(sensor){\r",
                   "        pm.expect(sensor.humidity).to.be.within(0, 100)\r",
                   "    })\r",
